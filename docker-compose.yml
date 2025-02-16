@@ -1,0 +1,23 @@
+services:
+  # Express App Service
+  app:
+    build: .
+    container_name: express_app
+    ports:
+      - "${PORT}:${PORT}"
+    env_file:
+      - .env  # Load environment variables from .env file
+    depends_on:
+      - database
+
+  # MongoDB Service
+  database:
+    image: mongo:6.0
+    container_name: mongo_db
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+
+volumes:
+  mongo-data:
