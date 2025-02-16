@@ -1,9 +1,8 @@
 const axios = require("axios");
-const e = require("express");
 
 class PayStackAPIService {
-    constructor() {
-        this.api = axios.create({
+    constructor(apiClient) {
+        this.api = apiClient || axios.create({
             baseURL: "https://api.paystack.co",
             headers: {
                 Authorization: `Bearer ${process.env.PAYSTACK_SECRET_KEY}`,
@@ -39,4 +38,4 @@ class PayStackAPIService {
     }
 }
 
-module.exports = new PayStackAPIService();
+module.exports = PayStackAPIService;

@@ -1,17 +1,18 @@
 const PayStackAPIService = require('./payStackAPIService');
 const Transaction = require('../models/Transaction');
+let payStackAPIService = new PayStackAPIService();
 
 
 exports.initializePayment = async (amount, email, currency) => {
     try {
         const data = {
-            email,
+            // email,
             amount: amount * 100, // convert to kobo
             currency,
         };
 
 
-        const response = await PayStackAPIService.initializePayment(data);
+        const response = await payStackAPIService.initializePayment(data);
 
         const { authorization_url, reference } = response.data;
 
@@ -36,7 +37,7 @@ exports.verifyPayment = async (transaction_id) => {
         if (!transaction) {
             return res.status(404).json({ error: "Transaction not found" });
         }
-        const response = await PayStackAPIService.verifyPayment(transaction.reference);
+        const response = await payStackAPIService.verifyPayment(transaction.reference);
 
         // update the transaction status
         if (response.data.status !== transaction.status) {
