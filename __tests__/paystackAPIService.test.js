@@ -21,16 +21,16 @@ describe("PayStackAPIService", () => {
     });
 
     test("should_initialize_payment_successfully", async () => {
-        const mockData = { email: "test@example.com", amount: 1000, currency: "NGN" };
+        const mockFakeData = {  amount: 1000, currency: "NGN" };
         const mockResponse = { data: { status: true, message: "Authorization URL created", data: { authorization_url: "https://checkout.paystack.com/3ni8kdavz62431l", reference: "re4lyvq3s9", access_code: "3ni8kdavz62431l" } } };
 
         mockAxios.post.mockResolvedValue(mockResponse);
 
-        const response = await paystackService.initializePayment(mockData);
+        const response = await paystackService.initializePayment(mockFakeData);
 
         expect(response).toEqual(mockResponse.data);
 
-        expect(mockAxios.post).toHaveBeenCalledWith("/transaction/initialize", mockData);
+        expect(mockAxios.post).toHaveBeenCalledWith("/transaction/initialize", mockFakeData);
     });
 
     test("should_handle_paystack_error_globally", async () => {
